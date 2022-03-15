@@ -30,7 +30,7 @@ public class LeitorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leitor);
+        setContentView(R.layout.activity_leitor_ui);
 
         try {
             setBar("Leitor");
@@ -93,7 +93,7 @@ public class LeitorActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_leitor, menu);
+        getMenuInflater().inflate(R.menu.menu_leitor_ui, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
