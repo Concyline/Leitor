@@ -28,24 +28,11 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
 
-<<<<<<< HEAD
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = 'com.github.Concyline'
-            artifactId = 'Leitor'
-            version = '1.0.6'
-            afterEvaluate {
-                artifact("$buildDir/outputs/aar/${project.name}-release.aar") {
-                    builtBy tasks.named("bundleReleaseAar")
-                }
-            }
-=======
+
     // 🔑 OBRIGATÓRIO NO AGP 8+
     publishing {
         singleVariant("release") {
             withSourcesJar()
->>>>>>> hotfix/001
         }
     }
 }
