@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +39,7 @@ public class LeitorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_leitor_ui);
 
         try {
-            setBar("Leitor");
+            //setBar("Leitor");
 
             teste = getIntent().getStringExtra(CODE_TEST) == null ? "" : getIntent().getStringExtra(CODE_TEST);
 
@@ -47,6 +48,13 @@ public class LeitorActivity extends AppCompatActivity {
             if (hasPermision) {
                 initScan();
             }
+
+            getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    sair();
+                }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,12 +127,7 @@ public class LeitorActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case 16908332: { // HOME
-                if (!teste.equals("")) {
-                    Intent intent = new Intent();
-                    intent.putExtra("CODIGO", teste);
-                    setResult(0, intent);
-                }
-                finish();
+                sair();
                 break;
             }
 
@@ -132,9 +135,18 @@ public class LeitorActivity extends AppCompatActivity {
         return true;
     }
 
-    public void setBar(String title) {
-        setBar(title, "");
+    private void sair(){
+        if (!teste.equals("")) {
+            Intent intent = new Intent();
+            intent.putExtra("CODIGO", teste);
+            setResult(0, intent);
+        }
+        finish();
     }
+
+   /* public void setBar(String title) {
+        setBar(title, "");
+    }*/
 
  /*   public void setBar(String title, String subtitle) {
 
@@ -155,7 +167,7 @@ public class LeitorActivity extends AppCompatActivity {
 
     }*/
 
-    public void setBar(String title, String subtitle) {
+  /*  public void setBar(String title, String subtitle) {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -175,7 +187,7 @@ public class LeitorActivity extends AppCompatActivity {
 
         // Clique do botão ←
         //toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    }
+    }*/
 
     public boolean testaPermisao() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
