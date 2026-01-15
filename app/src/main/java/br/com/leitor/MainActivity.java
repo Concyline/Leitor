@@ -5,10 +5,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (PermissionUtils.hasCameraPermission(this)) {
-           takePicture();
+            takePicture();
         } else {
             // Pede a permissão
             PermissionUtils.requestCameraPermission(this);
@@ -32,9 +31,24 @@ public class MainActivity extends AppCompatActivity {
     private void takePicture() {
         Intent intent = new Intent(getBaseContext(), LeitorActivity.class);
         String codigo = "C=7898958119652;L=50962;V=30/09/2019";
-        intent.putExtra(LeitorActivity.CODE_TEST,codigo);
-        startActivityForResult(intent, 123);
+        intent.putExtra(LeitorActivity.CODE_TEST, codigo);
+        //startActivityForResult(intent, 123);
+
+        activityResultLauncher.launch(intent);
     }
+
+    private ActivityResultLauncher<Intent> activityResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(), result -> {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            String value = data.getStringExtra("CODIGO");
+                            int x = 0;
+                        }
+
+                    }
+            );
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -46,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
 
 }
