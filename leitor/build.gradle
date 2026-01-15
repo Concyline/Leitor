@@ -1,16 +1,14 @@
 plugins {
     alias(libs.plugins.android.library)
-
-    id 'maven-publish'
+    id "maven-publish"
 }
 
 android {
-    namespace 'br.com.leitor'
-    compileSdkVersion 36
+    namespace "br.com.leitor"
+    compileSdk 36
 
     defaultConfig {
         minSdk 23
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -18,15 +16,19 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-}
 
+<<<<<<< HEAD
 publishing {
     publications {
         release(MavenPublication) {
@@ -38,17 +40,45 @@ publishing {
                     builtBy tasks.named("bundleReleaseAar")
                 }
             }
+=======
+    // 🔑 OBRIGATÓRIO NO AGP 8+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+>>>>>>> hotfix/001
         }
     }
 }
 
 dependencies {
 
-    implementation libs.appcompat
-    implementation libs.material
+    api libs.appcompat
+    api libs.material
+    api libs.activity
+    api libs.constraintlayout
+
+    // ZXing
+    api libs.zxing.android
+    api libs.zxing.core
+
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+}
 
-    api libs.core
+/*
+ * ⚠️ PUBLICAÇÃO DEVE SER ADIADA
+ * porque components.release só existe após avaliação do Android plugin
+ */
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.github.Concyline"
+                artifactId = "Leitor"
+                version = "1.0.7"
+            }
+        }
+    }
 }
