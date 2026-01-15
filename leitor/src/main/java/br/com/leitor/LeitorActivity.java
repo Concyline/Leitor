@@ -12,9 +12,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.zxing.Result;
 
 import br.com.leitor.codescanner.CodeScanner;
@@ -133,16 +136,45 @@ public class LeitorActivity extends AppCompatActivity {
         setBar(title, "");
     }
 
-    public void setBar(String title, String subtitle) {
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+ /*   public void setBar(String title, String subtitle) {
 
-        getSupportActionBar().setTitle(title);
-        getSupportActionBar().setTitle(Html.fromHtml("<small>" + title + "</small>"));
-        if (subtitle != null) {
-            getSupportActionBar().setSubtitle(subtitle);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+            actionBar.setTitle(title);
+            actionBar.setTitle(Html.fromHtml("<small>" + title + "</small>"));
+            if (subtitle != null) {
+                actionBar.setSubtitle(subtitle);
+            }
         }
+
+    }*/
+
+    public void setBar(String title, String subtitle) {
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24);
+
+            actionBar.setTitle(title);
+
+            if (subtitle != null) {
+                actionBar.setSubtitle(subtitle);
+            }
+        }
+
+        // Clique do botão ←
+        //toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     public boolean testaPermisao() {
